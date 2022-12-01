@@ -1,5 +1,6 @@
 package com.example.demo.ejercicio7;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -18,5 +19,14 @@ public class LazyInitTests {
 
     @Test
     public void lazyInitTest() {
+        log.info("Testing lazy init...");
+
+        var car = context.getBean("carBean", Car.class);
+
+        log.info("Asserting...");
+        Assert.assertNotNull(car);
+
+        log.info("After asserting");
+        
     }
 }

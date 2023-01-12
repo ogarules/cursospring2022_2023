@@ -85,5 +85,7 @@ public class BeansXmlTests {
 
         String greeting = spelParser.parseExpression("Aloja #{#name + ' you are'} awesome", new TemplateParserContext()).getValue(springContext, String.class);
         assertEquals("Aloja oga you are awesome", greeting);
+
+        SocietyStub.createSociety("IEEE");
     }
 }

@@ -1,0 +1,48 @@
+package com.example.demo.ejercicio25.parte2;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.example.demo.ejercicio25.dao.IUserDAO;
+import com.example.demo.ejercicio25.domain.Customer;
+import com.example.demo.ejercicio25.domain.User;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:spring/ejercicio25/spring-jdbc.xml" })
+@ActiveProfiles("h2-in-memory")
+public class UserDaoTests {
+    
+    @Autowired
+    IUserDAO userDAO;
+
+    @Test
+    public void userDAOInsertTest(){
+        log.info("User dao insert test....");
+
+        User user = new User();
+        user.setPassword("123");
+        user.setUsername("oga123");
+
+        Customer customer = new Customer();
+        customer.setLastName("gaga");
+        customer.setName("oga");
+        customer.setUser(user);
+
+        user.setCustomer(customer);
+
+        userDAO.insert(user);
+
+        User userInserted = userDAO.findById(user.getId());
+
+        assertEquals(user.toString(), userInserted.toString());
+    }
+}

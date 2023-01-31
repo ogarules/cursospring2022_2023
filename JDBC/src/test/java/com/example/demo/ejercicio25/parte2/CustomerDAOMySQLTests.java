@@ -43,6 +43,7 @@ public class CustomerDAOMySQLTests {
         customer.setUser(user);
 
         customerDAO.insert(customer);
+        Customer cust = customerDAO.findById(1L);
 
         List<Customer> customers = customerDAO.findAll();
 

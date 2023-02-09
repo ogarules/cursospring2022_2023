@@ -3,6 +3,10 @@ package com.example.demo.ejercicio27.dao.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,12 +17,24 @@ import lombok.Getter;
 public abstract class GenericHibernateDAO<T, ID extends Serializable> implements IGenericDAO<T,ID> {
     
     protected @Getter final Class<T> persistentClass;
+    private Session session;
 
     @Autowired
     protected @Getter SessionFactory sessionFactory;
 
     public GenericHibernateDAO(Class<T> type){
         this.persistentClass = type;
+        
+    }
+
+    @PostConstruct
+    public void postConstruct(){
+        try{
+            session = this.sessionFactory.getCurrentSession();
+        }
+        catch(HibernateException h){
+            session = sessionFactory.openSession();
+        }
     }
 
     @Override
@@ -29,30 +45,30 @@ public abstract class GenericHibernateDAO<T, ID extends Serializable> implements
 
     @Override
     public T delete(T entity) {
-        this.sessionFactory.getCurrentSession().delete(entity);
+        session.delete(entity);
         return entity;
     }
 
     @Override
     public List<T> findAll() {
-        return (List<T>)sessionFactory.getCurrentSession().createQuery("FROM " + this.persistentClass.getName())
+        return (List<T>)session.createQuery("FROM " + this.persistentClass.getName())
                .list();
     }
 
     @Override
     public T findById(ID id) {
-        return this.sessionFactory.getCurrentSession().get(this.persistentClass, id);
+        return session.get(this.persistentClass, id);
     }
 
     @Override
     public void insert(T entity) {
-        this.sessionFactory.getCurrentSession().save(entity);
+        session.save(entity);
         
     }
 
     @Override
     public void update(T entity) {
-        this.sessionFactory.getCurrentSession().update(entity);
+        session.update(entity);
     }
 
     

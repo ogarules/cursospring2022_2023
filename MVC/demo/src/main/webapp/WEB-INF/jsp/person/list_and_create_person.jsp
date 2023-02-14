@@ -36,7 +36,7 @@
         <br>
         <h2>Personas registradas</h2>
         <c:forEach var="person" items="${persons}" varStatus="i">
-            <c:out value="${i.index + 1}">${person}</c:out>
+            <c:out value="${i.index + 1}"/>${person}<br>
         </c:forEach>
     </body>
 </html>

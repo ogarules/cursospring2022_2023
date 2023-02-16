@@ -16,12 +16,14 @@
                     <td>Nombre:</td>
                     <td>
                         <form:input path="name"/>
+                        <form:errors path="name" cssClass="error"/>
                     </td>
                 </tr>
                 <tr>
                     <td>Edad:</td>
                     <td>
                         <form:input path="age"/>
+                        <form:errors path="age" cssClass="error"/>
                     </td>
                 </tr>
                 <tr>
